@@ -1,0 +1,79 @@
+﻿
+@model List<Application.ViewModels.SeriesViewModel>
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="row">
+   
+    
+     <div class="mb-4 col-4">
+            <form method="post" asp-controller="Home" asp-action="BuscarName" class="d-flex">
+                <input type="text" name="Name" class="form-control bg-dark text-white me-2" placeholder="Serie name" />
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+     </div>
+
+    <div class="mb-4 col-4">
+        <form method="post" asp-controller="Home" asp-action="BuscarProducer" class="d-flex">
+            <select name="Id" class="form-select bg-dark text-white me-2">
+                <option>Select a producers</option>
+                @if (ViewBag.producers is not null)
+                {
+                    @foreach (var producer in ViewBag.producers)
+                    {
+                        <option value="@producer.Id">@producer.Name</option>
+                    }
+                }
+            </select>
+           
+            <button type="submit" class="btn btn-outline-success">Search</button>
+        </form>
+    </div>
+    <div class="mb-4 col-4">
+        <form method="post" asp-controller="Home" asp-action="BuscarGenre" class="d-flex">
+            <select name="Id" class="form-select bg-dark text-white me-2">
+                <option>Select a genres</option>
+                @if (ViewBag.genres is not null)
+                {
+                    @foreach (var genre in ViewBag.genres)
+                    {
+                        <option value="@genre.Id">@genre.Name</option>
+                    }
+                }
+            </select>
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+
+    @foreach(Application.ViewModels.SeriesViewModel item in Model)
+    {
+        <div class="col-4">
+            <form method="post" asp-action="Reproductor">
+                <div class="card shadow-sm bg-black text-white">
+                    <img width="250" height="250" class="bd-placeholder-img card-img-top" src="@item.ImageUrl" />
+                    <div class="card-body bg-black text-white">
+                        <h4>Title: @item.Name</h4>
+                        <p>Genres: @string.Join(", ", item.Genres)</p>
+                        <p>Producers: @item.ProducerName </p>
+                        <button type="submit" asp-controller="Home" asp-action="Reproductor" class=" btn btn-danger" asp-route-id="@item.Id">Details</button>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    }
+</div>
+
+<style>
+    .card{
+        border-radius: 30px;
+        transition: all 0.3s;
+    }
+    .card:hover{
+        transform: scale(0.95);
+    }
+</style>

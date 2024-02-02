@@ -1,0 +1,29 @@
+﻿@model List<Application.ViewModels.ProducerViewModel>
+@{
+    ViewData["Ttile"] = "Home Producer";
+}
+
+<div class="row">
+    <div class="mb-4">
+        <a asp-controller="Producer" asp-action="Create" class="btn btn-sm btn-success">Create <i class="fa-solid fa-plus"></i></a>
+    </div>
+</div>
+
+<div class="row">
+
+    @foreach (Application.ViewModels.ProducerViewModel item in Model)
+    {
+        <div class="col-3">
+            <form method="post">
+                <div class="card shadow-sm bg-black text-white">
+                    <h4>Name: @item.Name</h4>
+
+                    <div class="card-body bg-black text-white">
+                        <a asp-controller="Producer" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-success">Edit <i class="fa-solid fa-pen-to-square"></i></a>
+                        <a asp-controller="Producer" asp-action="DeleteProducer" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete <i class="fa-solid fa-delete-left"></i></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    }
+</div>

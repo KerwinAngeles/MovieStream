@@ -1,0 +1,84 @@
+﻿
+@model Application.ViewModels.SaveSerieViewModel
+@{
+    ViewData["Title"] = "Create and edit Serie";
+    bool editModo = Model.Id == 0 ? false : true;    
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card bg-dark">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="text-center">@(editModo ? $"Editing a Serie: {Model.Name}" : "Creating a new Serie") <i class="fa-solid fa-pen-to-square"></i></h5>
+                </div>
+                <div class="card-body bg-dark text-white">
+                    <form method="post" asp-controller="Series" asp-action="@(editModo ? "Edit" : "Create")">
+                        <div class="mb-1">
+                            <label asp-for="Name" class="form-label">Name: </label>
+                            <input  type="text" asp-for="Name" class="form-control bg-dark text-white" placeholder="Name" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                         <div class="mb-1">
+                            <label asp-for="ImageUrl" class="form-label">Image: </label>
+                            <input type="text" asp-for="ImageUrl" class="form-control bg-dark text-white" placeholder="Image Url" />
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+
+                        </div>
+                        <div class="mb-1">
+                            <label asp-for="VideoUrl" class="form-label">Video: </label>
+                            <input type="text" asp-for="VideoUrl" class="form-control bg-dark text-white" placeholder="Video Url" />
+                            <span asp-validation-for="VideoUrl" class="text-danger"></span>
+
+                        </div>
+                        <div class="mb-1">
+                            <label asp-for="ProducerId" class="form-label">Producers: </label>
+                            <select asp-for="ProducerId" class="form-select bg-dark text-white">
+                                @if(ViewBag.producers is not null)
+                                {
+                                    @foreach (var producer in ViewBag.producers)
+                                    {
+                                        <option value="@producer.Id">@producer.Name</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="ProducerId" class="text-danger"></span>
+
+                        </div>
+                        <div class="mb-1">
+                            <label asp-for="GenresPrimary" class="form-label">Genres Primary: </label>
+                            <select asp-for="GenresPrimary" class="form-select bg-dark text-white ">
+                                @if (ViewBag.genres is not null)
+                                {
+                                    @foreach (var generos in ViewBag.genres)
+                                    {
+                                        <option value="@generos.Id">@generos.Name</option>
+                                    }
+                                }
+                            </select>
+         
+                            <span asp-validation-for="GenresPrimary" class="text-danger"></span>
+                        </div>
+                        <div class="mb-2">
+                            <label asp-for="GenresSecondary" class="form-label">Genres Secondary: </label>
+                            <select asp-for="GenresSecondary" class="form-select bg-dark text-white">
+                                @if (ViewBag.genres is not null)
+                                {
+                                    @foreach (var generos in ViewBag.genres)
+                                    {
+                                        <option value="@generos.Id">@generos.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <input type="hidden" asp-for="Id" />
+                        <a asp-controller="Series" asp-action="Index" class="btn btn-danger">Back</a>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

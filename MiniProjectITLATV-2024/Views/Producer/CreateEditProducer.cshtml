@@ -1,0 +1,32 @@
+﻿@model Application.ViewModels.SaveProducerViewModel
+@{
+    ViewData["Title"] = "Create and Edit Producer";
+    bool editModo = Model.Id == 0 ? false : true;
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card bg-dark">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="text-center">@(editModo ? $"Editing a Producer: {Model.Name}" : "Creating a Producer") <i class="fa-solid fa-video"></i></h5>
+                </div>
+                <div class="card-body bg-dark text-white">
+                    <form method="post" asp-controller="Producer" asp-action="@(editModo ? "Edit" : "Create")">
+                        <div class="mb-1">
+                            <label asp-for="Name" class="form-label">Name: </label>
+                            <input type="text" asp-for="Name" class="form-control bg-dark text-white" placeholder="Name" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <input type="hidden" asp-for="Id" />
+                        <a asp-controller="Producer" asp-action="Index" class="btn btn-danger">Back</a>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

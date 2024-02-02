@@ -1,0 +1,34 @@
+﻿@model Application.ViewModels.SaveGenreViewModel
+@{
+    ViewData["Title"] = "Create and Edit genre";
+    bool editModo = Model.Id == 0 ? false : true;
+
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card bg-dark">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="text-center">@(editModo ? $"Editing a Genre: {Model.Name}" : "Creating a new Genre") <i class="fa-solid fa-pen-to-square"></i></h5>
+                </div>
+                <div class="card-body bg-dark text-white">
+                    <form method="post" asp-controller="Genre" asp-action="@(editModo ? "Edit" : "Create")">
+                        <div class="mb-1">
+                            <label asp-for="Name" class="form-label">Name: </label>
+                            <input type="text" asp-for="Name" class="form-control bg-dark text-white" placeholder="Name" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <input type="hidden" asp-for="Id" />
+                        <a asp-controller="Genre" asp-action="Index" class="btn btn-danger">Back</a>
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

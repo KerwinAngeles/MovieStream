@@ -1,0 +1,19 @@
+﻿
+@model Application.ViewModels.SaveSerieViewModel
+@{
+    ViewData["Title"] = "Reproductor";
+}
+
+  <div class="container">
+        <div class="row justify-content-center align-content-center">
+            <div class="card-header text-white text-center">
+            <h5 class="font-italic"><i class="fa-solid fa-star"></i> @Model.Name <i class="fa-solid fa-star"></i></h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-center">
+                    <iframe width="560" height="315" src="@Model.VideoUrl" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div> 
+        </div>
+  </div>
+

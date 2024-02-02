@@ -1,0 +1,47 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<Application.ViewModels.SeriesViewModel>
+@{
+    ViewData["Title"] = "Home Serie";
+}
+
+
+<div class="row">
+    <div class="mb-4 align-content-center">
+        <a asp-controller="Series" asp-action="Create" class="btn btn-sm btn-success">Create <i class="fa-solid fa-plus"></i></a>
+    </div>
+</div>
+
+<div class="row">
+
+    @foreach (Application.ViewModels.SeriesViewModel item in Model)
+    {
+        <div class="col-4">
+            <form method="post">
+                <div class="card shadow-sm bg-black text-white">
+                    <img width="250" height="250" class="bd-placeholder-img card-img-top" src="@item.ImageUrl" />
+                    <div class="card-body bg-black text-white">
+                        <h4>Title: @item.Name</h4>
+                        <p>Genres: @string.Join(", ", item.Genres)</p>
+                        <p>Producers: @item.ProducerName </p>
+                        <a asp-controller="Series" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-success">Edit <i class="fa-solid fa-pen-to-square"></i></a>
+                        <a asp-controller="Series" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete <i class="fa-solid fa-delete-left"></i></a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    }
+</div>
+
+<style>
+    .card {
+        border-radius: 30px;
+        transition: all 0.3s;
+    }
+
+        .card:hover {
+            transform: scale(0.95);
+        }
+</style>
