@@ -30,20 +30,32 @@ namespace Application.Services
                 ImageUrl = series.ImageUrl,
                 VideoUrl = series.VideoUrl,
                 ProducerName = series.Producer.Name,
-                Genres = series.SeriesGenresList.Select(s => s.Genre.Name).ToList(),
+
+                Genres = series.SeriesGenresList
+                .Where(s => s.IsPrimary) 
+                .Select(s => s.Genre.Name)
+                .ToList(),
+
+                GenresSecondary = series.SeriesGenresList
+                .Where(s => !s.IsPrimary) 
+                .Select(s => s.Genre.Name)
+                .ToList()
             }).ToList();
 
         }
 
         public async Task CreateSerie(SaveSerieViewModel saveSerie)
         {
-            List<SeriesGenre> genresPrimary = saveSerie.GenresPrimary
-           .Select(genreId => new SeriesGenre { GenreId = genreId })
-           .ToList();
+            List<SeriesGenre> genresPrimary = saveSerie.Genres
+            .Select(genreId => new SeriesGenre { GenreId = genreId, IsPrimary = true })
+            .ToList();
 
             List<SeriesGenre> genresSecondary = saveSerie.GenresSecondary
-          .Select(genreId => new SeriesGenre { GenreId = genreId })
-          .ToList();
+           .Select(genreId => new SeriesGenre { GenreId = genreId, IsPrimary = false })
+           .ToList();
+
+            List<SeriesGenre> allGenres = genresPrimary.Concat(genresSecondary).ToList();
+
 
             Serie serie = new Serie()
             {
@@ -51,7 +63,7 @@ namespace Application.Services
                 ImageUrl = saveSerie.ImageUrl,
                 VideoUrl = saveSerie.VideoUrl,
                 ProducerId = saveSerie.ProducerId,
-                SeriesGenresList = genresPrimary.Concat(genresSecondary).ToList()
+                SeriesGenresList = allGenres
             };
 
             await _seriesRepository.AddSeries(serie);
@@ -64,10 +76,15 @@ namespace Application.Services
             existSerie.ImageUrl = saveSerie.ImageUrl;
             existSerie.VideoUrl = saveSerie.VideoUrl;
             existSerie.ProducerId = saveSerie.ProducerId;
-            existSerie.SeriesGenresList = saveSerie.GenresPrimary
-            .Select(genreId => new SeriesGenre { GenreId = genreId, SerieId = saveSerie.Id })
+            //existSerie.SeriesGenresList = saveSerie.Genres
+            //.Select(genreId => new SeriesGenre { GenreId = genreId, SerieId = saveSerie.Id })
+            //.ToList();
+            List<SeriesGenre> allGenres = saveSerie.Genres
+            .Select(genreId => new SeriesGenre { GenreId = genreId, SerieId = saveSerie.Id, IsPrimary = true })
+            .Concat(saveSerie.GenresSecondary
+            .Select(genreId => new SeriesGenre { GenreId = genreId, SerieId = saveSerie.Id, IsPrimary = false }))
             .ToList();
-
+            existSerie.SeriesGenresList = allGenres;
             await _seriesRepository.UpdateSeries(existSerie);
         }
 
@@ -88,7 +105,17 @@ namespace Application.Services
                 ImageUrl = serie.ImageUrl,
                 VideoUrl = serie.VideoUrl,
                 ProducerId = serie.ProducerId,
-                GenresPrimary = serie.SeriesGenresList.Select(s => s.GenreId).ToList()
+                //Genres = serie.SeriesGenresList.Select(s => s.GenreId).ToList(),
+                //GenresSecondary = serie.SeriesGenresList.Select(s => s.GenreId).ToList()
+                Genres = serie.SeriesGenresList
+                .Where(s => s.IsPrimary && s.Genre != null)
+                .Select(s => s.Genre.Id)
+                .ToList(),
+
+                GenresSecondary = serie.SeriesGenresList
+                .Where(s => !s.IsPrimary && s.Genre != null)
+                .Select(s => s.Genre.Id)
+                .ToList()
 
             };
             return saveSerieViewModel;

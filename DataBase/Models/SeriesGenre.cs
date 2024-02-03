@@ -10,6 +10,7 @@ namespace DataBase.Models
     {
         public int SerieId { get; set; }
         public int GenreId { get; set; }
+        public bool IsPrimary { get; set; }
         public Serie Serie { get; set; } = null!;
         public Genre Genre { get; set; } = null!;
 

@@ -46,8 +46,8 @@
 
                         </div>
                         <div class="mb-1">
-                            <label asp-for="GenresPrimary" class="form-label">Genres Primary: </label>
-                            <select asp-for="GenresPrimary" class="form-select bg-dark text-white ">
+                            <label asp-for="Genres" class="form-label">Genres Primary: </label>
+                            <select asp-for="Genres" class="form-select bg-dark text-white ">
                                 @if (ViewBag.genres is not null)
                                 {
                                     @foreach (var generos in ViewBag.genres)
@@ -57,7 +57,7 @@
                                 }
                             </select>
          
-                            <span asp-validation-for="GenresPrimary" class="text-danger"></span>
+                            <span asp-validation-for="Genres" class="text-danger"></span>
                         </div>
                         <div class="mb-2">
                             <label asp-for="GenresSecondary" class="form-label">Genres Secondary: </label>

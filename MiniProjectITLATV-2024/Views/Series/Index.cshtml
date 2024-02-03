@@ -23,8 +23,9 @@
                     <img width="250" height="250" class="bd-placeholder-img card-img-top" src="@item.ImageUrl" />
                     <div class="card-body bg-black text-white">
                         <h4>Title: @item.Name</h4>
-                        <p>Genres: @string.Join(", ", item.Genres)</p>
-                        <p>Producers: @item.ProducerName </p>
+                        <p>Genres: @string.Join(", ", item.Genres.Concat(item.GenresSecondary))</p>
+@*                         <p>Genres: @string.Join(", ", item.Genres)</p>
+ *@                        <p>Producers: @item.ProducerName </p>
                         <a asp-controller="Series" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-success">Edit <i class="fa-solid fa-pen-to-square"></i></a>
                         <a asp-controller="Series" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete <i class="fa-solid fa-delete-left"></i></a>
                     </div>

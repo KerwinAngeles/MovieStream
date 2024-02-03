@@ -50,17 +50,12 @@ namespace DataBase
             modelBuilder.Entity<SeriesGenre>()
                 .HasOne(sg => sg.Serie)
                 .WithMany(s => s.SeriesGenresList)
-                .HasForeignKey(s => s.SerieId)
-                .OnDelete(DeleteBehavior.Cascade);
-                
+                .HasForeignKey(s => s.SerieId);
 
             modelBuilder.Entity<SeriesGenre>()
                 .HasOne(sg => sg.Genre)
                 .WithMany(g => g.GenresSeriesList)
-                .HasForeignKey(g => g.GenreId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-
+                .HasForeignKey(g => g.GenreId);
             #endregion
 
             #region producer

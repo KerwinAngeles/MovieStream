@@ -23,8 +23,8 @@ namespace Application.ViewModels
         [Required(ErrorMessage = "La productora es requerida")]
         public int ProducerId { get; set; }
 
-        [MinLength(1, ErrorMessage ="El genero primario es requerido")]
-        public List<int> GenresPrimary { get; set; } = new List<int>();
+        [MinLength(1, ErrorMessage = "El genero primario es requerido")]
+        public List<int> Genres { get; set; } = new List<int>();
 
         public List<int> GenresSecondary { get; set; } = new List<int>();
     }

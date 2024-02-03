@@ -61,7 +61,6 @@ namespace Application.Services
             SaveProducerViewModel saveProducer = new SaveProducerViewModel();
             saveProducer.Id = id;
             saveProducer.Name = producer.Name;
-
             return saveProducer;
         }
     }
