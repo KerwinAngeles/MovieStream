@@ -21,6 +21,7 @@ namespace Application.ViewModels
         public string VideoUrl { get; set; } = null!;
 
         [Required(ErrorMessage = "La productora es requerida")]
+        [Range(1 , int.MaxValue , ErrorMessage = "La productora es requerida")]
         public int ProducerId { get; set; }
 
         [MinLength(1, ErrorMessage = "El genero primario es requerido")]

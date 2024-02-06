@@ -47,13 +47,13 @@ namespace Application.Repositories
 
         public async Task<Serie> GetSerieByName(string name)
         {
-            var serie =  await _context.Set<Serie>()
+            var serie = await _context.Set<Serie>()
                 .Include(x => x.Producer)
                 .Include(x => x.SeriesGenresList).ThenInclude(genre => genre.Genre)
-                .FirstOrDefaultAsync(s => s.Name == name);
+                .ToListAsync();
+                //.FirstOrDefaultAsync(s => s.Name == name);
+            return serie.FirstOrDefault(s => s.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 
-            return serie;
-                
         }
 
        public async Task<Serie> GetSerieById(int id)

@@ -16,7 +16,6 @@ namespace Application.ViewModels
         public string VideoUrl { get; set; } = null!;
         public string ProducerName { get; set; } = null!;
         public List<string> Genres { get; set; } = new List<string>();
-
         public List<string> GenresSecondary { get; set; } = new List<string>();
     }
 }

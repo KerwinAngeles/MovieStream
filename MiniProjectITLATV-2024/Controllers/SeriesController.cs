@@ -27,6 +27,7 @@ namespace MiniProjectITLATV_2024.Controllers
         {
             List<ProducerViewModel> producersList =  await _producerService.GetAllProducer();
             List<GenreViewModel> genreList = await _genreService.GetAllGenre();
+
             ViewBag.producers = producersList;
             ViewBag.genres = genreList;
             return  View("SaveSerie", new SaveSerieViewModel());
@@ -35,6 +36,11 @@ namespace MiniProjectITLATV_2024.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(SaveSerieViewModel saveSerie)
         {
+            List<ProducerViewModel> producersList = await _producerService.GetAllProducer();
+            List<GenreViewModel> genreList = await _genreService.GetAllGenre();
+
+            ViewBag.producers = producersList;
+            ViewBag.genres = genreList;
 
             if (!ModelState.IsValid)
             {
@@ -50,6 +56,7 @@ namespace MiniProjectITLATV_2024.Controllers
         {
             List<ProducerViewModel> producersList = await _producerService.GetAllProducer();
             List<GenreViewModel> genreList = await _genreService.GetAllGenre();
+
             ViewBag.producers = producersList;
             ViewBag.genres = genreList;
             return View("SaveSerie", await _serieService.GetById(id));
@@ -58,10 +65,17 @@ namespace MiniProjectITLATV_2024.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(SaveSerieViewModel sv)
         {
+            List<ProducerViewModel> producersList = await _producerService.GetAllProducer();
+            List<GenreViewModel> genreList = await _genreService.GetAllGenre();
+
+            ViewBag.producers = producersList;
+            ViewBag.genres = genreList;
+
             if (!ModelState.IsValid)
             {
                 return View("SaveSerie", sv);
             }
+
 
             await _serieService.EditSerie(sv);
             return RedirectToRoute(new { controller = "Series", action = "Index" });

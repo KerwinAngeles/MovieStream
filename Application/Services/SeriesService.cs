@@ -40,6 +40,7 @@ namespace Application.Services
                 .Where(s => !s.IsPrimary) 
                 .Select(s => s.Genre.Name)
                 .ToList()
+
             }).ToList();
 
         }
@@ -76,14 +77,13 @@ namespace Application.Services
             existSerie.ImageUrl = saveSerie.ImageUrl;
             existSerie.VideoUrl = saveSerie.VideoUrl;
             existSerie.ProducerId = saveSerie.ProducerId;
-            //existSerie.SeriesGenresList = saveSerie.Genres
-            //.Select(genreId => new SeriesGenre { GenreId = genreId, SerieId = saveSerie.Id })
-            //.ToList();
+           
             List<SeriesGenre> allGenres = saveSerie.Genres
             .Select(genreId => new SeriesGenre { GenreId = genreId, SerieId = saveSerie.Id, IsPrimary = true })
             .Concat(saveSerie.GenresSecondary
             .Select(genreId => new SeriesGenre { GenreId = genreId, SerieId = saveSerie.Id, IsPrimary = false }))
             .ToList();
+
             existSerie.SeriesGenresList = allGenres;
             await _seriesRepository.UpdateSeries(existSerie);
         }
@@ -105,8 +105,7 @@ namespace Application.Services
                 ImageUrl = serie.ImageUrl,
                 VideoUrl = serie.VideoUrl,
                 ProducerId = serie.ProducerId,
-                //Genres = serie.SeriesGenresList.Select(s => s.GenreId).ToList(),
-                //GenresSecondary = serie.SeriesGenresList.Select(s => s.GenreId).ToList()
+               
                 Genres = serie.SeriesGenresList
                 .Where(s => s.IsPrimary && s.Genre != null)
                 .Select(s => s.Genre.Id)
@@ -125,17 +124,24 @@ namespace Application.Services
         {
             var serie = await _seriesRepository.GetSerieByName(name);
 
-            SeriesViewModel saveSerieViewModel = new()
+            if(serie != null)
             {
-                Id = serie.Id,
-                Name = serie.Name,
-                ImageUrl = serie.ImageUrl,
-                VideoUrl = serie.VideoUrl,
-                ProducerName= serie.Producer.Name,
-                Genres = serie.SeriesGenresList.Select(g => g.Genre.Name).ToList()
+                SeriesViewModel saveSerieViewModel = new()
+                {
+                    Id = serie.Id,
+                    Name = serie.Name,
+                    ImageUrl = serie.ImageUrl,
+                    VideoUrl = serie.VideoUrl,
+                    ProducerName = serie.Producer.Name,
+                    Genres = serie.SeriesGenresList.Select(g => g.Genre.Name).ToList()
 
-            };
-            return saveSerieViewModel;
+                };
+                return saveSerieViewModel;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<List<SeriesViewModel>> GetByProducer(ProducerViewModel producerViewModel)
@@ -145,19 +151,38 @@ namespace Application.Services
             producer.Name = producerViewModel.Name;
 
             var serie = await _seriesRepository.GetAllSeriesByProducer(producer);
-            if (serie == null)
-            {
-                return new List<SeriesViewModel>();
-            }
 
-            return serie.Select(series => new SeriesViewModel
+            //if (serie == null)
+            //{
+            //    return new List<SeriesViewModel>();
+            //}
+
+            //return serie.Select(series => new SeriesViewModel
+            //{
+            //    Id = series.Id,
+            //    Name = series.Name,
+            //    ImageUrl = series.ImageUrl,
+            //    ProducerName = series.Producer.Name,
+            //    Genres = series.SeriesGenresList.Select(s => s.Genre.Name).ToList()
+            //}).ToList();
+
+            if (serie != null)
             {
-                Id = series.Id,
-                Name = series.Name,
-                ImageUrl = series.ImageUrl,
-                ProducerName = series.Producer.Name,
-                Genres = series.SeriesGenresList.Select(s => s.Genre.Name).ToList()
-            }).ToList();
+               return serie.Select(series => new SeriesViewModel
+                {
+                    Id = series.Id,
+                    Name = series.Name,
+                    ImageUrl = series.ImageUrl,
+                    VideoUrl = series.VideoUrl,
+                    ProducerName = series.Producer.Name,
+                    Genres = series.SeriesGenresList.Select(g => g.Genre.Name).ToList()
+                }).ToList();
+
+            }
+            else
+            {
+                return null;
+            }
         }
         public async Task<List<SeriesViewModel>> GetByGenre(GenreViewModel genreViewModel)
         {
@@ -166,19 +191,37 @@ namespace Application.Services
             genre.Name = genreViewModel.Name;
 
             var serie = await _seriesRepository.GetAllSeriesByGenre(genre);
-            if (serie == null)
-            {
-                return new List<SeriesViewModel>();
-            }
 
-            return serie.Select(series => new SeriesViewModel
+            //if (serie == null)
+            //{
+            //    return new List<SeriesViewModel>();
+            //}
+
+            //return serie.Select(series => new SeriesViewModel
+            //{
+            //    Id = series.Serie.Id,
+            //    Name = series.Serie.Name,
+            //    ImageUrl = series.Serie.ImageUrl,
+            //    ProducerName = series.Serie.Producer.Name,
+            //    Genres = series.Serie.SeriesGenresList.Select(s => s.Genre.Name).ToList(),
+            //}).ToList();
+
+            if (serie != null)
             {
-                Id = series.Serie.Id,
-                Name = series.Serie.Name,
-                ImageUrl = series.Serie.ImageUrl,
-                ProducerName = series.Serie.Producer.Name,
-                Genres = series.Serie.SeriesGenresList.Select(s => s.Genre.Name).ToList(),
-            }).ToList();
+                return serie.Select(series => new SeriesViewModel
+                {
+                    Id = series.Serie.Id,
+                    Name = series.Serie.Name,
+                    ImageUrl = series.Serie.ImageUrl,
+                    VideoUrl = series.Serie.VideoUrl,
+                    ProducerName = series.Serie.Producer.Name,
+                    Genres = series.Serie.SeriesGenresList.Select(s => s.Genre.Name).ToList()
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

@@ -10,7 +10,6 @@ namespace MiniProjectITLATV_2024.Controllers
     {
         public SeriesService _seriesService { get; set; }
         public GenreService _genreService { get; set; }
-
         public ProducerService _producerService { get; set; }
 
 
@@ -38,8 +37,15 @@ namespace MiniProjectITLATV_2024.Controllers
 
         public async Task<IActionResult> BuscarName(string name)
         {
+            List<ProducerViewModel> producersList = await _producerService.GetAllProducer();
+            ViewBag.producers = producersList;
+
+            List<GenreViewModel> genreList = await _genreService.GetAllGenre();
+            ViewBag.genres = genreList;
+
             var serieViewModel = await _seriesService.GetByName(name);
             List<SeriesViewModel> seriesViewModels = new List<SeriesViewModel> { serieViewModel };
+          
             return View("Index", seriesViewModels);
         }
 
@@ -69,3 +75,4 @@ namespace MiniProjectITLATV_2024.Controllers
         }
     }
 }
+

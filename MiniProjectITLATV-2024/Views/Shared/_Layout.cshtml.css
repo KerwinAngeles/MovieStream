@@ -8,35 +8,27 @@ a.navbar-brand {
 }
 
 
-a {
-  color: #0077cc;
-}
-
-.img-series-high{
-    height: 300px;
-}
-
-
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+/*.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
-
-.nav-link:hover{
-    transition: all 0.2s
+*/
+/*.nav-link:hover{
+    transition: all 0.2s;
 }
 
 .nav-link:hover{
+    color: chocolate;
     text-decoration: underline;
     border-bottom:  2px solid greenyellow;
-}
+}*/
 
 .border-top {
   border-top: 1px solid #e5e5e5;
@@ -61,4 +53,3 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
-

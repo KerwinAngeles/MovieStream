@@ -8,7 +8,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-6 offset-3">
-            <div class="card bg-dark">
+            <div class="card bg-dark cardStyleForm">
                 <div class="card-header bg-danger text-white">
                     <h5 class="text-center">@(editModo ? $"Editing a Serie: {Model.Name}" : "Creating a new Serie") <i class="fa-solid fa-pen-to-square"></i></h5>
                 </div>
@@ -34,8 +34,9 @@
                         <div class="mb-1">
                             <label asp-for="ProducerId" class="form-label">Producers: </label>
                             <select asp-for="ProducerId" class="form-select bg-dark text-white">
-                                @if(ViewBag.producers is not null)
+                                @if(ViewBag.producers != null)
                                 {
+                                    <option value="0">Select a producer</option>
                                     @foreach (var producer in ViewBag.producers)
                                     {
                                         <option value="@producer.Id">@producer.Name</option>
@@ -48,13 +49,14 @@
                         <div class="mb-1">
                             <label asp-for="Genres" class="form-label">Genres Primary: </label>
                             <select asp-for="Genres" class="form-select bg-dark text-white ">
-                                @if (ViewBag.genres is not null)
+                                @if (ViewBag.genres != null)
                                 {
                                     @foreach (var generos in ViewBag.genres)
                                     {
                                         <option value="@generos.Id">@generos.Name</option>
                                     }
                                 }
+                               
                             </select>
          
                             <span asp-validation-for="Genres" class="text-danger"></span>
@@ -62,7 +64,7 @@
                         <div class="mb-2">
                             <label asp-for="GenresSecondary" class="form-label">Genres Secondary: </label>
                             <select asp-for="GenresSecondary" class="form-select bg-dark text-white">
-                                @if (ViewBag.genres is not null)
+                                @if (ViewBag.genres != null)
                                 {
                                     @foreach (var generos in ViewBag.genres)
                                     {
